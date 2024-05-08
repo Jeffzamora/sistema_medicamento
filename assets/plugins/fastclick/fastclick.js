@@ -14,11 +14,19 @@
 
 
 	/**
-	 * Instantiate fast-clicking listeners on the specified layer.
-	 *
-	 * @constructor
-	 * @param {Element} layer The layer to listen on
-	 * @param {Object} [options={}] The options to override the defaults
+	 * @description Is a polyfill for mobile browsers that provides improved click and
+	 * touch event handling. It sets up event listeners on an element, binds method to
+	 * the context object, and handles tap cancelation and touch boundary detection.
+	 * 
+	 * @param { object } layer - element for which FastClick will intercept and handle
+	 * click events, providing additional functionality beyond what is available through
+	 * standard HTML elements.
+	 * 
+	 * @param { object } options - object that contains customizable settings for FastClick,
+	 * such as the touch boundary, tap delay, and tap timeout.
+	 * 
+	 * @returns { object } an object that handles click and touch events for a given layer
+	 * element.
 	 */
 	function FastClick(layer, options) {
 		var oldOnClick;
@@ -107,6 +115,25 @@
 		}
 
 		// Some old versions of Android don't have Function.prototype.bind
+		/**
+		 * @description Creates a new function that invokes the original method with the
+		 * context as its first argument.
+		 * 
+		 * @param { function. } method - method to be called and applied to the context when
+		 * the returned function is invoked.
+		 * 
+		 * 		- `method`: It is the original method to be called on the context object.
+		 * 
+		 * @param { object } context - object to which the method will be bound.
+		 * 
+		 * @returns { function } a new function that calls the original method on the specified
+		 * context with provided arguments.
+		 * 
+		 * 		- The output is an anonymous function that can be invoked like any other function.
+		 * 		- The `method` argument is called repeatedly when the returned function is
+		 * invoked, and its `apply()` method is called with the `context` object as the first
+		 * argument and the arguments passed to the function as additional arguments.
+		 */
 		function bind(method, context) {
 			return function() { return method.apply(context, arguments); };
 		}
